@@ -9,7 +9,9 @@
     </div>
   </div>
     <div class="button-container">
-      <button v-if="displayOff" @click="displayOff = !displayOff"> 420 ₽ |<img src="../assets/cart.svg" alt="card" width="32"> 3</button>
+      <router-link to="cart">
+        <button v-if="displayOff" @click="displayOff = !displayOff">420 ₽ |<img src="../assets/cart.svg" alt="card" width="32"> 3</button>
+      </router-link>
     </div>
   </header>
 

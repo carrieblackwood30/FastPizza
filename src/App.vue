@@ -1,6 +1,6 @@
 <template>
   <logo />
-  <mainContent />
+  <RouterView />
 </template>
 
 <script setup>
