@@ -1,12 +1,10 @@
 <template>
-  <logo />
   <RouterView />
 </template>
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import logo from "./components/header.vue"
-import mainContent from "./components/main.vue"
+
 </script>
 
 <style scoped>

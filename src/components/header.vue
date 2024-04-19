@@ -65,8 +65,16 @@ header{
 </style>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
   const displayOff = ref(true)
-  
+
+  const prop = defineProps({
+    displayOff: Boolean
+  })
+
+  const emit = defineEmits(['btnDisplay'])
+
+  emit('btnDisplay', displayOff.value)
+
 </script>
