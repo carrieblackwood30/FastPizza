@@ -25,7 +25,7 @@
         <div class="pizza-container">
             <div class="pizza-card" v-for="pizza in pizzas[0]" :key="pizza">
                 <img :src="pizza.img" alt="pizza-img">
-                <h3 style="text-align: center;">{{ pizza.name }}</h3>
+                <h3 style="text-align: center; margin: .8rem 1rem;">{{ pizza.name }}</h3>
                 <div class="button-container">
                     <div class="thickness">
                     <button>тонкое</button>
@@ -117,6 +117,7 @@ main{
 
 .button-container{
     background-color: #F3F3F3;
+    padding: .4rem;
     border-radius: 10px;
 }
 
@@ -125,10 +126,22 @@ main{
     font-weight: 700;
     width: 132px;
     padding: .8rem;
+    margin: .4rem;
+    border-radius: 10px;
+}
+
+.button-container .thickness{
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-container .width{
+    display: flex;
+    justify-content: space-between;
 }
 
 .button-container .width button{
-    width: 86px;
+    width: 80px;
 }
 
 </style>
