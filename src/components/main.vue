@@ -22,15 +22,31 @@
 
     <main>
         <h3>Все пиццы</h3>
+        <div class="pizza-container">
+            <div class="pizza-card" v-for="pizza in pizzas[0]" :key="pizza">
+                <h3>{{ pizza.name }}</h3>
+                <img :src="pizza.img" alt="pizza-img">
+                <h3>{{ pizza.cost }}</h3>
+            </div>
+        </div>
     </main>
 
 </template>
 
 <script setup>
     import { useStore } from "@/stores/dataBase.js"
+    import axios from "axios";
+    import { ref } from "vue";
 
-    const { pizza } = useStore()
-    console.log(pizza[0].name)
+    const pizzas = ref([])
+
+    axios.get("http://localhost:3000/pizzas")
+    .then((response) =>{
+        pizzas.value.push(response.data)
+        console.log(pizzas.value[0])
+    })
+
+
 </script>
 
 <style scoped>
@@ -70,6 +86,19 @@ option{
 
 main{
     margin: 2rem;
+    width: 80%;
+    margin-left: 18rem;
+}
+
+.pizza-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 4rem;
+}
+
+.pizza-card{
+    width: 280px;
 }
 
 </style>

@@ -6,6 +6,7 @@
     font-family: "Raleway", sans-serif;
     font-style: normal;
     outline: none;
+    overflow-x: hidden;
 }
 
 button{
