@@ -24,9 +24,20 @@
         <h3>Все пиццы</h3>
         <div class="pizza-container">
             <div class="pizza-card" v-for="pizza in pizzas[0]" :key="pizza">
-                <h3>{{ pizza.name }}</h3>
                 <img :src="pizza.img" alt="pizza-img">
-                <h3>{{ pizza.cost }}</h3>
+                <h3 style="text-align: center;">{{ pizza.name }}</h3>
+                <div class="button-container">
+                    <div class="thickness">
+                    <button>тонкое</button>
+                    <button>традиционное</button>
+                </div>
+                <div class="width">
+                    <button>26 см.</button>
+                    <button>30 см.</button>
+                    <button>40 см.</button>
+                </div>
+                </div>
+                <h3 style="display: inline;">{{ pizza.cost }}<button style="display: inline;">+ Добавить 'cena'</button></h3>
             </div>
         </div>
     </main>
@@ -87,10 +98,11 @@ option{
 main{
     margin: 2rem;
     width: 80%;
-    margin-left: 18rem;
+    margin-left: 14%;
 }
 
 .pizza-container{
+    margin: 1rem;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -99,6 +111,24 @@ main{
 
 .pizza-card{
     width: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container{
+    background-color: #F3F3F3;
+    border-radius: 10px;
+}
+
+.button-container button{
+    font-size: 14px;
+    font-weight: 700;
+    width: 132px;
+    padding: .8rem;
+}
+
+.button-container .width button{
+    width: 86px;
 }
 
 </style>
