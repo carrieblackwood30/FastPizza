@@ -1,9 +1,20 @@
+<template>
+  
+  <headerAndBtn :display-btn-off="$route.path !== 'cart'"/>
+  <RouterView />
+
+</template>
+
 <script setup>
-import mainContent from '@/App.vue'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
+import headerAndBtn from './components/headerAndBtn.vue';
+
+const route = useRoute()
+console.log(route.path)
+
 </script>
 
-<template>
-  <main>
-    <mainContent />
-  </main>
-</template>
+<style scoped>
+
+
+</style>

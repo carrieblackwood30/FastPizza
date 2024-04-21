@@ -1,7 +1,5 @@
 <template>
 
-  <logo />
-
     <nav>
         <div class="nav-container">
             <button>все</button>
@@ -30,7 +28,6 @@
 
 <script setup>
     import { useStore } from "@/stores/dataBase.js"
-    import logo from "@/components/header.vue"
 
     const { pizza } = useStore()
     console.log(pizza[0].name)
