@@ -72,6 +72,7 @@ function prisePicker(pizza) {
 
 function totalPizza(pizza){
     axios.post("http://localhost:3000/totalPizzas",{
+        id: pizza.id,
         name: pizza.name,
         img: pizza.img,
         thickness: pizza.thickness,

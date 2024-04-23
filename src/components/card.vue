@@ -1,15 +1,15 @@
 <template>
     
-    <div class="cart-container">
+    <div class="cart-container" v-if="pizzas.length > 0">
         <div class="head">
         <h3><img src="https://www.svgrepo.com/show/60848/shopping-cart-empty-side-view.svg" width="20" alt="cart">  Корзина</h3>
-            <button>
+            <button @click="delAllItem">
                 <img src="https://icon-library.com/images/android-trash-can-icon/android-trash-can-icon-5.jpg" width="20px" alt="trash">
                 <span>Очистить корзину</span>
             </button>
         </div>
         <div class="pizza-container">
-            <div class="pizza" v-for="pizza in pizzas" :key="pizza">
+            <div class="pizza" v-for="pizza in pizzas" :key="pizza.id">
                 <img :src="pizza.img" alt="pizzaImg" width="80">
                 <div class="description">
                     <h3>{{ pizza.name }}</h3>
@@ -23,7 +23,7 @@
                 </div>
                 <h3 style="width: 6rem;">{{ pizza.cost }} ₽</h3>
 
-                <button class="closeBtn">x</button>
+                <button class="closeBtn" @click="delItem(pizza)">x</button>
             </div>
         </div>
         <div class="tail">
@@ -31,8 +31,24 @@
             <span style="display: flex; gap: 1rem; align-items: center;">сумма заказа:
                 <h3 style="color: var(--main-color)">{{ totalPrice }} ₽</h3>
             </span>
-            
         </div>
+
+        <div class="backBtnContainer">
+            <router-link to="/" class="backBtn"> Вернуться назад</router-link>
+            <button class="payBtn"> Оплатить сейчас</button>
+        </div>
+    </div>
+
+    <div class="emptyCard" v-else>
+
+        <div class="emptyDescription">
+            <h3>empty 😕</h3>
+            <p>Вероятней всего, вы не заказывали ещё пиццу.</p>
+            <p>Для того, чтобы заказать пиццу, перейди на главную страницу.</p>
+        </div>
+
+        <img src="https://www.kindpng.com/picc/m/98-989172_pizza-delivery-pictures-pizza-delivery-man-transparent-hd.png" width="400" alt="">
+        <router-link class="emptyBackBtn" to="/">Вернуться назад</router-link>
     </div>
 
 </template>
@@ -40,6 +56,8 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
+
+// нужно добавить счётчик 
 
 const pizzas = ref([])
 const totalPrice = ref(0)
@@ -53,7 +71,16 @@ axios.get("http://localhost:3000/totalPizzas")
         }
 
     })
-    
+
+    function delItem(pizza){
+        axios.delete(`http://localhost:3000/totalPizzas/${pizza.id}`)
+    }
+
+    function delAllItem(){
+        for (let i = 0; i < pizzas.value.length; i++) {
+            axios.delete(`http://localhost:3000/totalPizzas/${i}`)
+        }
+    }
 </script>
 
 <style scoped>
@@ -122,5 +149,57 @@ axios.get("http://localhost:3000/totalPizzas")
 .tail{
     display: flex;
     justify-content: space-between;
+}
+
+.backBtnContainer{
+    display: flex;
+    margin-top: 1rem;
+    justify-content: space-between;
+}
+
+.payBtn{
+    background-color: var(--main-color);
+    border-radius: 20px;
+    padding: .8rem 1rem;
+    color: #f3f3f3;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.backBtn{
+    border:1px solid #D3D3D3;
+    color: #D3D3D3;
+    border-radius: 20px;
+    padding: .8rem 1rem;
+    text-decoration: none;
+}
+
+.emptyCard{
+    margin: 2rem 14rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptyCard h3{
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.emptyCard p{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.emptyBackBtn{
+    background-color: #282828;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 32px;
+    border-radius: 20px;
+    padding: .8rem 1rem;
+    text-decoration: none;
 }
 </style>
