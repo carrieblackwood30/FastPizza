@@ -1,15 +1,15 @@
 <template>
     
-    <div class="cart-container" v-if="pizzas.length > 0">
+    <div class="cart-container" v-if="pizzaStore.pickedPizzas.length > 0">
         <div class="head">
         <h3><img src="https://www.svgrepo.com/show/60848/shopping-cart-empty-side-view.svg" width="20" alt="cart">  Корзина</h3>
-            <button @click="delAllItem">
+            <button @click="pizzaStore.delAllItem()">
                 <img src="https://icon-library.com/images/android-trash-can-icon/android-trash-can-icon-5.jpg" width="20px" alt="trash">
                 <span>Очистить корзину</span>
             </button>
         </div>
         <div class="pizza-container">
-            <div class="pizza" v-for="pizza in pizzas" :key="pizza.id">
+            <div class="pizza" v-for="pizza in pizzaStore.pickedPizzas" :key="pizza.id">
                 <img :src="pizza.img" alt="pizzaImg" width="80">
                 <div class="description">
                     <h3>{{ pizza.name }}</h3>
@@ -54,33 +54,13 @@
 </template>
 
 <script setup>
-import axios from "axios";
+import { useStore } from "@/stores/UsePizzaStorage";
 import { ref } from "vue";
-
-// нужно добавить счётчик 
 
 const pizzas = ref([])
 const totalPrice = ref(0)
+const pizzaStore = useStore()
 
-axios.get("http://localhost:3000/totalPizzas")
-    .then((response) =>{
-        pizzas.value = response.data
-
-        for (let i = 0; i < pizzas.value.length; i++) {
-            totalPrice.value = totalPrice.value + pizzas.value[i].cost
-        }
-
-    })
-
-    function delItem(pizza){
-        axios.delete(`http://localhost:3000/totalPizzas/${pizza.id}`)
-    }
-
-    function delAllItem(){
-        for (let i = 0; i < pizzas.value.length; i++) {
-            axios.delete(`http://localhost:3000/totalPizzas/${i}`)
-        }
-    }
 </script>
 
 <style scoped>

@@ -1,12 +1,12 @@
 <template>
 
     <nav>
-        <div class="nav-container" v-for="pizzaFilter in pizzas" :key="pizzaFilter">
-            <button :class="`pizza-filter-${pizzaFilter.class === 'all' ? 'on' : 'off'}`" @click="pizzaFilter.class = 'all';filterPizza(pizzaFilter)">все</button>
-            <button :class="`pizza-filter-${pizzaFilter.class === 'meat' ? 'on' : 'off'}`" @click="pizzaFilter.class = 'meat';filterPizza(pizzaFilter)">мясные</button>
-            <button :class="`pizza-filter-${pizzaFilter.class === 'vegan' ? 'on' : 'off'}`" @click="pizzaFilter.class = 'vegan';filterPizza(pizzaFilter)">Вегетарианская</button>
-            <button :class="`pizza-filter-${pizzaFilter.class === 'grill' ? 'on' : 'off'}`" @click="pizzaFilter.class = 'grill';filterPizza(pizzaFilter)">Гриль</button>
-            <button :class="`pizza-filter-${pizzaFilter.class === 'spice' ? 'on' : 'off'}`" @click="pizzaFilter.class = 'spice';filterPizza(pizzaFilter)">Острые</button>
+        <div class="nav-container">
+            <button :class="`pizza-filter-${pizzaFiltered === 'all' ? 'on' : 'off'}`" @click="pizzaFiltered = 'all'">все</button>
+            <button :class="`pizza-filter-${pizzaFiltered === 'meat' ? 'on' : 'off'}`" @click="pizzaFiltered = 'meat'">мясные</button>
+            <button :class="`pizza-filter-${pizzaFiltered === 'vegan' ? 'on' : 'off'}`" @click="pizzaFiltered = 'vegan'">Вегетарианская</button>
+            <button :class="`pizza-filter-${pizzaFiltered === 'grill' ? 'on' : 'off'}`" @click="pizzaFiltered = 'grill'">Гриль</button>
+            <button :class="`pizza-filter-${pizzaFiltered === 'spice' ? 'on' : 'off'}`" @click="pizzaFiltered = 'spice'">Острые</button>
             <button>Закрытые</button>
         </div>
 
@@ -23,7 +23,7 @@
     <main>
         <h3>Все пиццы</h3>
         <div class="pizza-container">
-            <div class="pizza-card" v-for="(pizza) in pizzas[0]" :key="pizza" v-show="pizza.class.includes(pizzaFiltered)"> <!--v-show-->
+            <div class="pizza-card" v-for="(pizza) in pickedPizza.pizzas " :key="pizza" v-show="pizza.class.includes(pizzaFiltered)"> <!--v-show-->
                 <img :src="pizza.img" alt="pizza-img">
                 <h3 style="text-align: center; margin: .8rem 1rem;">{{ pizza.name }}</h3>
                 <div class="button-container">
@@ -50,16 +50,15 @@
 </template>
 
 <script setup>
-import { useStore } from "@/stores/dataBase.js"
+import { useStore } from "@/stores/UsePizzaStorage.js"
 import axios from "axios";
 import { ref } from "vue";
 
-const pizzas = ref([])
 const pizzaFiltered = ref('all')
+const pickedPizza = useStore()
 
 function filterPizza(pizzaFilter){
     pizzaFiltered.value = pizzaFilter.class
-    console.log(pizzaFiltered.value)
 }
 
 function prisePicker(pizza) {
@@ -71,7 +70,7 @@ function prisePicker(pizza) {
 }
 
 function totalPizza(pizza){
-    axios.post("http://localhost:3000/totalPizzas",{
+    pickedPizza.pickedPizzas.push({
         id: pizza.id,
         name: pizza.name,
         img: pizza.img,
@@ -79,16 +78,11 @@ function totalPizza(pizza){
         width: pizza.width,
         cost: pizza.cost[prisePicker(pizza)]
     })
-    .then((response) =>{
-        console.log(response)
-    })
+
+    localStorage.setItem("pickedPizzas", JSON.stringify(pickedPizza.pickedPizzas))
 }
 
-axios.get("http://localhost:3000/pizzas")
-    .then((response) => {
-        pizzas.value.push(response.data)
-        console.log(pizzas.value[0][0].class.includes('all'))
-    })
+pickedPizza.getPizzas()
 
 
 </script>
