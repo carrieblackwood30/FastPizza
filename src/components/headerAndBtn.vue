@@ -10,7 +10,7 @@
   </div>
     <div class="button-container">
       <router-link to="cart">
-        <button v-if="displayBtnOff" @click="displayBtnOff = !displayBtnOff">{{ totalPrice }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ pizzaLength()  }}</button>
+        <button v-if="displayBtnOff" @click="displayBtnOff = !displayBtnOff">{{ totalCost() }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ pizzaLength()  }}</button>
       </router-link>
     </div>
   </header>
@@ -70,21 +70,12 @@ import axios from 'axios';
 import { computed, ref } from 'vue';
 
   const pizzasFromPinia = useStore()
+  const totalCost = pizzasFromPinia.totalCost
+  console.log(totalCost())
+
   const pizzaLength = () => pizzasFromPinia.pickedPizzas === null ? 0 : pizzasFromPinia.pickedPizzas.length
-
-  const pizzas = ref(0)
-  const totalPrice = ref(0)
-
   const prop = defineProps({
     displayBtnOff: Boolean
   })
-
-  axios.get("http://localhost:3000/totalPizzas")
-    .then((response) => {
-      pizzas.value = response.data
-      for (let i = 0; i < pizzas.value.length; i++) {
-            totalPrice.value = totalPrice.value + pizzas.value[i].cost
-        }
-    })
 
 </script>

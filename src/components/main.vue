@@ -12,7 +12,7 @@
 
         <div class="sort-container">
             <label for="select">Сортировка по:</label>
-            <select name="categories" id="select">
+            <select name="categories" id="select" @change="sortArrayByName($event)">
                 <option value="популярности">популярности</option>
                 <option value="по цене">по цене</option>
                 <option value="по алфавиту">по алфавиту</option>
@@ -51,15 +51,13 @@
 
 <script setup>
 import { useStore } from "@/stores/UsePizzaStorage.js"
-import axios from "axios";
 import { ref } from "vue";
+
 
 const pizzaFiltered = ref('all')
 const pickedPizza = useStore()
 
-function filterPizza(pizzaFilter){
-    pizzaFiltered.value = pizzaFilter.class
-}
+pickedPizza.getPizzas()
 
 function prisePicker(pizza) {
     if (pizza.width === 40) {
@@ -82,7 +80,30 @@ function totalPizza(pizza){
     localStorage.setItem("pickedPizzas", JSON.stringify(pickedPizza.pickedPizzas))
 }
 
-pickedPizza.getPizzas()
+
+function sortArrayByName($event){
+    if ($event.target.value === 'по алфавиту') {
+        pickedPizza.pizzas = pickedPizza.pizzas.sort((a,b) =>{
+        if(a.name < b.name) return -1
+        if(a.name > b.name) return 1
+        return 0
+    })
+    }
+    else if($event.target.value === 'по цене'){
+        pickedPizza.pizzas = pickedPizza.pizzas.sort((a,b) =>{
+            if(a.cost < b.cost) return -1
+            if(a.cost > b.cost) return 1
+            return 0
+        })
+    }
+    else if($event.target.value === 'популярности'){
+        pickedPizza.pizzas = pickedPizza.pizzas.sort((a,b) =>{
+            if(a.popularity < b.popularity) return -1
+            if(a.popularity > b.popularity) return 1
+            return 0
+        })
+    }
+}
 
 
 </script>
