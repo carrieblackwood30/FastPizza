@@ -23,7 +23,7 @@
     <main>
         <h3>Все пиццы</h3>
         <div class="pizza-container">
-            <div class="pizza-card" v-for="(pizza) in pickedPizza.pizzas " :key="pizza" v-show="pizza.class.includes(pizzaFiltered)"> <!--v-show-->
+            <div class="pizza-card" v-for="(pizza) in pickedPizza.pizzas " :key="pizza" v-show="pizza.class.includes(pizzaFiltered)">
                 <img :src="pizza.img" alt="pizza-img">
                 <h3 style="text-align: center; margin: .8rem 1rem;">{{ pizza.name }}</h3>
                 <div class="button-container">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="total-container">
                     <h3 style="display: inline;">от {{ pizza.cost[0] }} ₽</h3>
-                    <button style="display: inline;" @click="totalPizza(pizza)">+ Добавить {{ pizza.cost[prisePicker(pizza)]}}</button>
+                    <button style="display: inline;" @click="totalPizza(pizza)">+ Добавить {{ pizza.cost[prisePicker(pizza)]}} {{ countPizzas(pizza) }}</button>
                 </div>
             </div>
         </div>
@@ -59,6 +59,11 @@ const pickedPizza = useStore()
 
 pickedPizza.getPizzas()
 
+const countPizzas = (pizza) =>{
+    const counter = pickedPizza.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+    return counter?.count || 0
+}
+
 function prisePicker(pizza) {
     if (pizza.width === 40) {
         return 2
@@ -68,14 +73,21 @@ function prisePicker(pizza) {
 }
 
 function totalPizza(pizza){
-    pickedPizza.pickedPizzas.push({
+    const existingPizza = pickedPizza.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+
+    if (existingPizza) {
+        existingPizza.count++
+    }else {
+        pickedPizza.pickedPizzas.push({
         id: pizza.id,
         name: pizza.name,
         img: pizza.img,
         thickness: pizza.thickness,
         width: pizza.width,
-        cost: pizza.cost[prisePicker(pizza)]
+        cost: pizza.cost[prisePicker(pizza)],
+        count: 1
     })
+    }
 
     localStorage.setItem("pickedPizzas", JSON.stringify(pickedPizza.pickedPizzas))
 }

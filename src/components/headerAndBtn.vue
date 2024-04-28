@@ -71,7 +71,6 @@ import { computed, ref } from 'vue';
 
   const pizzasFromPinia = useStore()
   const totalCost = pizzasFromPinia.totalCost
-  console.log(totalCost())
 
   const pizzaLength = () => pizzasFromPinia.pickedPizzas === null ? 0 : pizzasFromPinia.pickedPizzas.length
   const prop = defineProps({

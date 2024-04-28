@@ -17,19 +17,19 @@
                     ,{{ pizza.width }}
                 </div>
                 <div class="button-container">
-                    <button>-</button>
-                            0
-                    <button>+</button>
+                    <button @click="pizza.count--">-</button>
+                        {{ pizza.count }}
+                    <button @click="pizza.count++">+</button>
                 </div>
-                <h3 style="width: 6rem;">{{ pizza.cost }} ₽</h3>
+                <h3 style="width: 6rem;">{{ computedCost(pizza) }} ₽</h3>
 
                 <button class="closeBtn" @click="delItem(pizza)">x</button>
             </div>
         </div>
         <div class="tail">
-            <span style="display: flex; gap: 1rem; align-items: center;">Всего пицц: <h3>{{ pizzas.length }} шт</h3></span>
+            <span style="display: flex; gap: 1rem; align-items: center;">Всего пицц: <h3>{{ pizzaStore.pickedPizzas.length }} шт</h3></span>
             <span style="display: flex; gap: 1rem; align-items: center;">сумма заказа:
-                <h3 style="color: var(--main-color)">{{ totalPrice }} ₽</h3>
+                <h3 style="color: var(--main-color)">{{ totalPrice() }} ₽</h3>
             </span>
         </div>
 
@@ -55,11 +55,22 @@
 
 <script setup>
 import { useStore } from "@/stores/UsePizzaStorage";
-import { ref } from "vue";
 
-const pizzas = ref([])
-const totalPrice = ref(0)
 const pizzaStore = useStore()
+const totalPrice = pizzaStore.totalCost
+const computedCost = (pizza) => pizza.cost * pizza.count
+
+function delItem(pizza){
+    const deletingItem = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+
+    if (pizzaStore.pickedPizzas.length > 1) {
+        pizzaStore.pickedPizzas.splice(deletingItem, 1)
+    }else if(pizzaStore.pickedPizzas.length == 1){
+        pizzaStore.pickedPizzas.splice(deletingItem)
+    }
+
+    localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
+}
 
 </script>
 

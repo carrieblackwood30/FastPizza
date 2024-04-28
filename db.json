@@ -141,23 +141,5 @@
       ],
       "popularity": 3
     }
-  ],
-  "totalPizzas": [
-    {
-      "id": "3",
-      "name": "Сырный цыпленок",
-      "img": "https://s3-alpha-sig.figma.com/img/ca9b/e23e/3d44180b3596e4c86e6b3c3bf2fdc984?Expires=1714348800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=k7JuKdR7ASmmQM-S4FU6yuybgxBkx6hZNA7f81IM47x-trqjL69aJkAjYKMnxzgGmPoH9tX79ZilfVOvIFcb3kxyxeazr97z4JEI9fKN-I0CydMXo30zBNsexx6IF~Dm8RXNPKJadeeuFHZak7hLzdMywebjLlCzULRYg9ajnb8RfqadTlJ-OtNvRFVbbBFeFZpjP6EYvD5KisJCPt1kXaLid0rL00uM~p1AX8Gs-LIMyc6D3BHZbdJ7m7GKUPBwrIZiJM5zR4xsUCw3IdLutgprErlD-Y4onylA8BmS8qGETguk9ti-g8KU1Fm12yqnF3oScr1ssDoRNx5zMR175g__",
-      "thickness": true,
-      "width": 30,
-      "cost": 400
-    },
-    {
-      "id": "7",
-      "name": "Сырный цыпленок",
-      "img": "https://s3-alpha-sig.figma.com/img/ca9b/e23e/3d44180b3596e4c86e6b3c3bf2fdc984?Expires=1714348800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=k7JuKdR7ASmmQM-S4FU6yuybgxBkx6hZNA7f81IM47x-trqjL69aJkAjYKMnxzgGmPoH9tX79ZilfVOvIFcb3kxyxeazr97z4JEI9fKN-I0CydMXo30zBNsexx6IF~Dm8RXNPKJadeeuFHZak7hLzdMywebjLlCzULRYg9ajnb8RfqadTlJ-OtNvRFVbbBFeFZpjP6EYvD5KisJCPt1kXaLid0rL00uM~p1AX8Gs-LIMyc6D3BHZbdJ7m7GKUPBwrIZiJM5zR4xsUCw3IdLutgprErlD-Y4onylA8BmS8qGETguk9ti-g8KU1Fm12yqnF3oScr1ssDoRNx5zMR175g__",
-      "thickness": true,
-      "width": 30,
-      "cost": 400
-    }
   ]
 }
