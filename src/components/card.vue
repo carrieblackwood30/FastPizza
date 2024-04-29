@@ -17,9 +17,9 @@
                     ,{{ pizza.width }}
                 </div>
                 <div class="button-container">
-                    <button @click="pizza.count--">-</button>
+                    <button @click="decreaseBtn(pizza)">-</button>
                         {{ pizza.count }}
-                    <button @click="pizza.count++">+</button>
+                    <button @click="increaseBtn(pizza)">+</button>
                 </div>
                 <h3 style="width: 6rem;">{{ computedCost(pizza) }} ₽</h3>
 
@@ -59,6 +59,18 @@ import { useStore } from "@/stores/UsePizzaStorage";
 const pizzaStore = useStore()
 const totalPrice = pizzaStore.totalCost
 const computedCost = (pizza) => pizza.cost * pizza.count
+
+function decreaseBtn(pizza){
+    const decreasePizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+    decreasePizza.count--
+    localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
+}
+
+function increaseBtn(pizza){
+    const decreasePizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+    decreasePizza.count++
+    localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
+}
 
 function delItem(pizza){
     const deletingItem = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))

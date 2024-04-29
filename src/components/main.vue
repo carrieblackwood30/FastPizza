@@ -2,8 +2,8 @@
 
     <nav>
         <div class="nav-container">
-            <button :class="`pizza-filter-${pizzaFiltered === 'all' ? 'on' : 'off'}`" @click="pizzaFiltered = 'all'">все</button>
-            <button :class="`pizza-filter-${pizzaFiltered === 'meat' ? 'on' : 'off'}`" @click="pizzaFiltered = 'meat'">мясные</button>
+            <button :class="`pizza-filter-${pizzaFiltered === 'all' ? 'on' : 'off'}`" @click="pizzaFiltered = 'all'">Все</button>
+            <button :class="`pizza-filter-${pizzaFiltered === 'meat' ? 'on' : 'off'}`" @click="pizzaFiltered = 'meat'">Мясные</button>
             <button :class="`pizza-filter-${pizzaFiltered === 'vegan' ? 'on' : 'off'}`" @click="pizzaFiltered = 'vegan'">Вегетарианская</button>
             <button :class="`pizza-filter-${pizzaFiltered === 'grill' ? 'on' : 'off'}`" @click="pizzaFiltered = 'grill'">Гриль</button>
             <button :class="`pizza-filter-${pizzaFiltered === 'spice' ? 'on' : 'off'}`" @click="pizzaFiltered = 'spice'">Острые</button>
@@ -21,7 +21,7 @@
     </nav>
 
     <main>
-        <h3>Все пиццы</h3>
+        <h3 class="allPizza">Все пиццы</h3>
         <div class="pizza-container">
             <div class="pizza-card" v-for="(pizza) in pickedPizza.pizzas " :key="pizza" v-show="pizza.class.includes(pizzaFiltered)">
                 <img :src="pizza.img" alt="pizza-img">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="total-container">
                     <h3 style="display: inline;">от {{ pizza.cost[0] }} ₽</h3>
-                    <button style="display: inline;" @click="totalPizza(pizza)">+ Добавить {{ pizza.cost[prisePicker(pizza)]}} {{ countPizzas(pizza) }}</button>
+                    <button style="display: inline;" @click="totalPizza(pizza)"> + Добавить {{ pizza.cost[prisePicker(pizza)]}} <span class="counter">{{ countPizzas(pizza) }}</span></button>
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@ nav {
     font-size: 16px;
     font-weight: 700;
     border-radius: 20px;
-    padding: 6px 12px;
+    padding: 12px 24px;
 }
 
 label {
@@ -159,6 +159,12 @@ main {
     margin: 2rem;
     width: 80%;
     margin-left: 14%;
+}
+
+.allPizza{
+    font-size: 36px;
+    font-weight: 800;
+    margin: 1rem 0 2rem;
 }
 
 .pizza-container {
@@ -211,6 +217,7 @@ main {
 .total-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 1rem;
 }
 
@@ -219,7 +226,7 @@ main {
     background-color: #F3F3F3;
     color: var(--main-color);
     border-radius: 20px;
-    padding: 6px 12px;
+    padding: 12px 12px;
     font-size: 16px;
     font-weight: 700;
 }
@@ -232,5 +239,17 @@ main {
 .pizza-filter-on {
     color: #F3F3F3;
     background-color: #282828;
+}
+
+.counter{
+    background-color: var(--main-color);
+    color: #F3F3F3;
+    padding: .2rem .4rem;
+    border-radius: 50%;
+}
+
+button:hover .counter{
+    background-color: #f3f3f3;
+    color: var(--main-color);
 }
 </style>

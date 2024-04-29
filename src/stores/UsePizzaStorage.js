@@ -27,7 +27,7 @@ export const useStore = defineStore('dataBase', () => {
     }
     else{
       for (let i = 0; i < pickedPizzas.value.length; i++) {
-        pickedPizzasCost.value.push(pickedPizzas.value[i].cost)
+        pickedPizzasCost.value.push(pickedPizzas.value[i].count * pickedPizzas.value[i].cost)
       }
     }
     const totalCost = pickedPizzasCost.value.reduce((a, b) => a + b)
