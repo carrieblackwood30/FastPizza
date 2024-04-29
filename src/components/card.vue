@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="tail">
-            <span style="display: flex; gap: 1rem; align-items: center;">Всего пицц: <h3>{{ pizzaStore.pickedPizzas.length }} шт</h3></span>
+            <span style="display: flex; gap: 1rem; align-items: center;">Всего пицц: <h3>{{ pizzaStore.totalLength() }} шт</h3></span>
             <span style="display: flex; gap: 1rem; align-items: center;">сумма заказа:
                 <h3 style="color: var(--main-color)">{{ totalPrice() }} ₽</h3>
             </span>
@@ -59,6 +59,8 @@ import { useStore } from "@/stores/UsePizzaStorage";
 const pizzaStore = useStore()
 const totalPrice = pizzaStore.totalCost
 const computedCost = (pizza) => pizza.cost * pizza.count
+
+console.log(pizzaStore.totalLength())
 
 function decreaseBtn(pizza){
     const decreasePizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
