@@ -62,7 +62,12 @@ const computedCost = (pizza) => pizza.cost * pizza.count
 
 function decreaseBtn(pizza){
     const decreasePizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
-    decreasePizza.count--
+    if (decreasePizza.count > 1) {
+        decreasePizza.count--
+    }else{
+        const confirmDel = confirm(`вы хотите убрать из списка ${pizza.name}?`)
+        confirmDel ? delItem(pizza) : decreaseBtn.count = 1
+    }
     localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
 }
 
@@ -83,7 +88,6 @@ function delItem(pizza){
 
     localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
 }
-
 </script>
 
 <style scoped>

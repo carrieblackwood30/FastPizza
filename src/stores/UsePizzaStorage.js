@@ -34,5 +34,11 @@ export const useStore = defineStore('dataBase', () => {
 
     return totalCost
   }
-  return { pizzas, pickedPizzas, getPizzas, delAllItem, totalCost }
+
+  function totalLength(){
+    for (let i = 0; i < pickedPizzas.value.length; i++) {
+      return pickedPizzas.value.length * pickedPizzas.value[i].count
+    }
+  }
+  return { pizzas, pickedPizzas, getPizzas, delAllItem, totalCost, totalLength }
 })
