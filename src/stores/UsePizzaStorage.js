@@ -11,7 +11,12 @@ export const useStore = defineStore('dataBase', () => {
     axios.get("http://localhost:3000/pizzas")
     .then((response) => {
       pizzas.value = response.data
+      for (let i = 0; i < pizzas.value.length; i++) {
+        pizzas.value[i].width = 26
+      }
     })
+
+   
   }
 
   function delAllItem(){

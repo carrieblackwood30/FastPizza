@@ -41,7 +41,7 @@
                 </div>
                 <div class="total-container">
                     <h3 style="display: inline;">от {{ pizza.cost[0] }} ₽</h3>
-                    <button style="display: inline;" @click="totalPizza(pizza)"> + Добавить {{ pizza.cost[prisePicker(pizza)]}} <span class="counter">{{ countPizzas(pizza) }}</span></button>
+                    <button style="display: inline;" @click="totalPizza(pizza)"> + Добавить {{ pizza.cost[prisePicker(pizza)]}} <span :class="`${countPizzas(pizza) !== '' ? 'counter' : ''}`">{{ countPizzas(pizza) }}</span></button>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@ pickedPizza.getPizzas()
 
 const countPizzas = (pizza) =>{
     const counter = pickedPizza.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
-    return counter?.count || 0
+    return counter?.count || ''
 }
 
 function prisePicker(pizza) {
@@ -130,7 +130,7 @@ nav {
 
 .nav-container {
     display: flex;
-    gap: 4rem;
+    gap: 2rem;
 }
 
 .nav-container button {

@@ -42,12 +42,12 @@
     <div class="emptyCard" v-else>
 
         <div class="emptyDescription">
-            <h3>empty 😕</h3>
+            <h3>Корзина пустая 😕</h3>
             <p>Вероятней всего, вы не заказывали ещё пиццу.</p>
             <p>Для того, чтобы заказать пиццу, перейди на главную страницу.</p>
         </div>
 
-        <img src="https://www.kindpng.com/picc/m/98-989172_pizza-delivery-pictures-pizza-delivery-man-transparent-hd.png" width="400" alt="">
+        <img src="../assets/manWithCart.svg" width="400" alt="manWithCart">
         <router-link class="emptyBackBtn" to="/">Вернуться назад</router-link>
     </div>
 
