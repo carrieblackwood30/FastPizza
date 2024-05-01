@@ -23,7 +23,7 @@
     <main>
         <h3 class="allPizza">Все пиццы</h3>
         <div class="pizza-container">
-            <div class="pizza-card" v-for="(pizza) in pickedPizza.pizzas " :key="pizza" v-show="pizza.class.includes(pizzaFiltered)">
+            <div class="pizza-card" v-for="(pizza) in pickedPizza.pizzas " :key="pizza.id" v-show="pizza.class.includes(pizzaFiltered)">
                 <img :src="pizza.img" alt="pizza-img">
                 <h3 style="text-align: center; margin: .8rem 1rem;">{{ pizza.name }}</h3>
                 <div class="button-container">
@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { useStore } from "@/stores/UsePizzaStorage.js"
+import { useStore } from "@/stores/usePizzaStore.js"
 import { ref } from "vue";
 
 
@@ -58,7 +58,7 @@ const pizzaFiltered = ref('all')
 const pickedPizza = useStore()
 
 pickedPizza.getPizzas()
-
+    console.log(pickedPizza.getAllPizzaCost2)
 const countPizzas = (pizza) =>{
     const counter = pickedPizza.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
     return counter?.count || ''
@@ -116,7 +116,6 @@ function sortArrayByName($event){
         })
     }
 }
-
 
 </script>
 

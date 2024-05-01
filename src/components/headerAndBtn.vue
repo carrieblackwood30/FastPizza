@@ -10,7 +10,7 @@
   </div>
     <div class="button-container">
       <router-link to="cart">
-        <button v-if="displayBtnOff" @click="displayBtnOff = !displayBtnOff">{{ totalCost() }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ pizzaLength()  }}</button>
+        <button v-if="displayBtnOff" @click="displayBtnOff = !displayBtnOff">{{ pizzaStore.getAllPizzaCost() }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ pizzaLength()  }}</button>
       </router-link>
     </div>
   </header>
@@ -65,14 +65,11 @@ header{
 </style>
 
 <script setup>
-import { useStore } from '@/stores/UsePizzaStorage';
-import axios from 'axios';
-import { computed, ref } from 'vue';
+import { useStore } from '@/stores/usePizzaStore';
+  const pizzaStore = useStore()
+  const totalCost = pizzaStore.allPizzaCost
 
-  const pizzasFromPinia = useStore()
-  const totalCost = pizzasFromPinia.totalCost
-
-  const pizzaLength = () => pizzasFromPinia.pickedPizzas === null ? 0 : pizzasFromPinia.pickedPizzas.length
+  const pizzaLength = () => pizzaStore.pickedPizzas === null ? 0 : pizzaStore.pickedPizzas.length
   const prop = defineProps({
     displayBtnOff: Boolean
   })
