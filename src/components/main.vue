@@ -57,6 +57,8 @@ const pickedPizza = useStore()
 const pizzaFiltered = ref('все')
 const pizzaClasses = ref([ 'все', 'мясные', 'вегетарианские', 'гриль', 'острые', 'закрытые' ])
 
+console.log(pickedPizza.getAllPizzaCost2)
+
 pickedPizza.getPizzas()
 
 const countPizzas = (pizza) =>{
