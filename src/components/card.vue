@@ -59,6 +59,8 @@ import { useStore } from "@/stores/usePizzaStore";
 const pizzaStore = useStore()
 const computedCost = (pizza) => pizza.cost * pizza.count
 
+console.log(pizzaStore.getAllPizzaCost2)
+
 function decreaseBtn(pizza){
     const decreasePizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
     if (decreasePizza.count > 1) {

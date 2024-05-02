@@ -2,12 +2,9 @@
 
     <nav>
         <div class="nav-container">
-            <button :class="`pizza-filter-${pizzaFiltered === 'all' ? 'on' : 'off'}`" @click="pizzaFiltered = 'all'">Все</button>
-            <button :class="`pizza-filter-${pizzaFiltered === 'meat' ? 'on' : 'off'}`" @click="pizzaFiltered = 'meat'">Мясные</button>
-            <button :class="`pizza-filter-${pizzaFiltered === 'vegan' ? 'on' : 'off'}`" @click="pizzaFiltered = 'vegan'">Вегетарианская</button>
-            <button :class="`pizza-filter-${pizzaFiltered === 'grill' ? 'on' : 'off'}`" @click="pizzaFiltered = 'grill'">Гриль</button>
-            <button :class="`pizza-filter-${pizzaFiltered === 'spice' ? 'on' : 'off'}`" @click="pizzaFiltered = 'spice'">Острые</button>
-            <button>Закрытые</button>
+            <div v-for="filteredPizza in pizzaClasses" :key="filteredPizza">
+                <button :class="`pizza-filter-${pizzaFiltered === filteredPizza ? 'on' : 'off'}`" @click= "pizzaFiltered = filteredPizza">{{ filteredPizza }}</button>
+            </div>
         </div>
 
         <div class="sort-container">
@@ -19,6 +16,8 @@
             </select>
         </div>
     </nav>
+
+
 
     <main>
         <h3 class="allPizza">Все пиццы</h3>
@@ -53,12 +52,13 @@
 import { useStore } from "@/stores/usePizzaStore.js"
 import { ref } from "vue";
 
-
-const pizzaFiltered = ref('all')
 const pickedPizza = useStore()
 
+const pizzaFiltered = ref('все')
+const pizzaClasses = ref([ 'все', 'мясные', 'вегетарианские', 'гриль', 'острые', 'закрытые' ])
+
 pickedPizza.getPizzas()
-    console.log(pickedPizza.getAllPizzaCost2)
+
 const countPizzas = (pizza) =>{
     const counter = pickedPizza.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
     return counter?.count || ''

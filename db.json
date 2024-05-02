@@ -16,9 +16,9 @@
         40
       ],
       "class": [
-        "all",
-        "meat",
-        "spice"
+        "все",
+        "мясные",
+        "острые"
       ],
       "popularity": 5
     },
@@ -33,8 +33,8 @@
       ],
       "thickness": false,
       "class": [
-        "all",
-        "vegan"
+        "все",
+        "вегетарианские"
       ],
       "popularity": 3
     },
@@ -49,10 +49,10 @@
       ],
       "thickness": false,
       "class": [
-        "all",
-        "meat",
-        "spice",
-        "grill"
+        "все",
+        "мясные",
+        "острые",
+        "гриль"
       ],
       "popularity": 4
     },
@@ -67,9 +67,9 @@
       ],
       "thickness": false,
       "class": [
-        "all",
-        "meat",
-        "spice"
+        "все",
+        "мясные",
+        "острые"
       ],
       "popularity": 4
     },
@@ -84,9 +84,9 @@
       ],
       "thickness": false,
       "class": [
-        "all",
-        "meat",
-        "spice"
+        "все",
+        "мясные",
+        "острые"
       ],
       "popularity": 3
     },
@@ -101,8 +101,8 @@
       ],
       "thickness": false,
       "class": [
-        "all",
-        "vegan"
+        "все",
+        "вегетарианские"
       ],
       "popularity": 2
     },
@@ -117,10 +117,11 @@
       ],
       "thickness": false,
       "class": [
-        "all",
-        "meat",
-        "spice",
-        "grill"
+        "все",
+        "мясные",
+        "острые",
+        "гриль",
+        "закрытые"
       ],
       "popularity": 5
     },
@@ -135,9 +136,9 @@
       ],
       "thickness": false,
       "class": [
-        "all",
-        "meat",
-        "spice"
+        "все",
+        "мясные",
+        "острые"
       ],
       "popularity": 3
     }
