@@ -23,15 +23,15 @@ export const useStore = defineStore('pizza', () => {
   }
     pickedPizzas.value = JSON.parse(localStorage.getItem("pickedPizzas")) || []
 
-  function getAllPizzaCost(){
-      const pickedPizzasCost = ref([])
-      for (let i = 0; i < pickedPizzas.value.length; i++) {
-        pickedPizzasCost.value.push(pickedPizzas.value[i].cost * pickedPizzas.value[i].count)
-      }
-      return pickedPizzasCost.value.length == 0 ? 0 : pickedPizzasCost.value.reduce((a, b) => a + b)
-  }
+  // function getAllPizzaCost(){
+  //     const pickedPizzasCost = ref([])
+  //     for (let i = 0; i < pickedPizzas.value.length; i++) {
+  //       pickedPizzasCost.value.push(pickedPizzas.value[i].cost * pickedPizzas.value[i].count)
+  //     }
+  //     return pickedPizzasCost.value.length == 0 ? 0 : pickedPizzasCost.value.reduce((a, b) => a + b)
+  // }
 
-  const getAllPizzaCost2 = computed(() =>{
+  const getAllPizzaCost = computed(() =>{
     return pickedPizzas.value.length == 0 ? 0
     : pickedPizzas.value.reduce((a, b) => {
       a.push(b.cost * b.count)
@@ -40,10 +40,12 @@ export const useStore = defineStore('pizza', () => {
   })
 
   function totalLength(){
+    let counter = 0 
     for (let i = 0; i < pickedPizzas.value.length; i++) {
-      return pickedPizzas.value.length * pickedPizzas.value[i].count
+      counter += pickedPizzas.value[i].count
     }
+    return counter
   }
   
-  return { pizzas, pickedPizzas, getPizzas, delAllItem, getAllPizzaCost, totalLength, getAllPizzaCost2 }
+  return { pizzas, pickedPizzas, getPizzas, delAllItem, getAllPizzaCost, totalLength }
 })

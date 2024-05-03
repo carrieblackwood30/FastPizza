@@ -10,7 +10,7 @@
   </div>
     <div class="button-container">
       <router-link to="cart">
-        <button v-if="displayBtnOff" @click="displayBtnOff = !displayBtnOff">{{ pizzaStore.getAllPizzaCost() }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ pizzaLength()  }}</button>
+        <button v-if="displayBtnOff" @click="displayBtnOff = !displayBtnOff">{{ pizzaStore.getAllPizzaCost }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ pizzaLength()  }}</button>
       </router-link>
     </div>
   </header>
