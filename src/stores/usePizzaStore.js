@@ -23,28 +23,17 @@ export const useStore = defineStore('pizza', () => {
   }
     pickedPizzas.value = JSON.parse(localStorage.getItem("pickedPizzas")) || []
 
-  // function getAllPizzaCost(){
-  //     const pickedPizzasCost = ref([])
-  //     for (let i = 0; i < pickedPizzas.value.length; i++) {
-  //       pickedPizzasCost.value.push(pickedPizzas.value[i].cost * pickedPizzas.value[i].count)
-  //     }
-  //     return pickedPizzasCost.value.length == 0 ? 0 : pickedPizzasCost.value.reduce((a, b) => a + b)
-  // }
-
   const getAllPizzaCost = computed(() =>{
     return pickedPizzas.value.length == 0 ? 0
-    : pickedPizzas.value.reduce((a, b) => {
-      a.push(b.cost * b.count)
-      return a
-    }, []).reduce((a, b) => a + b)
+    : pickedPizzas.value.reduce((a, b) => a += b.cost * b.count, 0)
   })
 
   function totalLength(){
-    let counter = 0 
+    let count = 0
     for (let i = 0; i < pickedPizzas.value.length; i++) {
-      counter += pickedPizzas.value[i].count
+      count += pickedPizzas.value[i].count
     }
-    return counter
+    return count
   }
   
   return { pizzas, pickedPizzas, getPizzas, delAllItem, getAllPizzaCost, totalLength }
