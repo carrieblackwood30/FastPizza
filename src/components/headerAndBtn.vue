@@ -10,7 +10,7 @@
   </div>
     <div class="button-container">
       <router-link to="cart">
-        <button v-if="displayBtnOff" @click="displayBtnOff = !displayBtnOff">{{ pizzaStore.getAllPizzaCost }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ pizzaLength()  }}</button>
+        <button v-if="displayBtnOff">{{ pizzaStore.totalPiizaCost }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ pizzaLength()  }}</button>
       </router-link>
     </div>
   </header>
@@ -67,9 +67,9 @@ header{
 <script setup>
 import { useStore } from '@/stores/usePizzaStore';
   const pizzaStore = useStore()
-  const totalCost = pizzaStore.allPizzaCost
 
   const pizzaLength = () => pizzaStore.pickedPizzas === null ? 0 : pizzaStore.pickedPizzas.length
+
   const prop = defineProps({
     displayBtnOff: Boolean
   })

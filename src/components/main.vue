@@ -22,7 +22,7 @@
     <main>
         <h3 class="allPizza">Все пиццы</h3>
         <div class="pizza-container">
-            <div class="pizza-card" v-for="(pizza) in pickedPizza.pizzas " :key="pizza.id" v-show="pizza.class.includes(pizzaFiltered)">
+            <div class="pizza-card" v-for="(pizza) in pizzaStore.pizzas " :key="pizza.id" v-show="pizza.class.includes(pizzaFiltered)">
                 <img :src="pizza.img" alt="pizza-img">
                 <h3 style="text-align: center; margin: .8rem 1rem;">{{ pizza.name }}</h3>
                 <div class="button-container">
@@ -32,10 +32,8 @@
                         <button :class="`display-${pizza.thickness ? 'on' : 'off'}`"
                             @click="pizza.thickness = true">традиционное</button>
                     </div>
-                    <div class="width">
-                        <button :class="`display-${pizza.width === 26 ? 'on' : 'off'}`" @click="pizza.width = 26">26см.</button>
-                        <button :class="`display-${pizza.width === 30 ? 'on' : 'off'}`" @click="pizza.width = 30">30см.</button>
-                        <button :class="`display-${pizza.width === 40 ? 'on' : 'off'}`" @click="pizza.width = 40">40см.</button>
+                    <div class="width" v-for="pizzaWidth in pizza.width">
+                        <button :class="`display-${pizza.selectedWidth === pizzaWidth ? 'on' : 'off'}`" @click="pizza.selectedWidth = pizzaWidth">{{ pizzaWidth }}</button> <!--через v-for-->
                     </div>
                 </div>
                 <div class="total-container">
@@ -52,19 +50,19 @@
 import { useStore } from "@/stores/usePizzaStore.js"
 import { ref } from "vue";
 
-const pickedPizza = useStore()
+const pizzaStore = useStore()
 
 const pizzaFiltered = ref('все')
-const pizzaClasses = ref([ 'все', 'мясные', 'вегетарианские', 'гриль', 'острые', 'закрытые' ])
+const pizzaClasses = [ 'все', 'мясные', 'вегетарианские', 'гриль', 'острые', 'закрытые' ]
 
-pickedPizza.getPizzas()
+pizzaStore.getPizzas()
 
 const countPizzas = (pizza) =>{
-    const counter = pickedPizza.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+    const counter = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
     return counter?.count || ''
 }
 
-function prisePicker(pizza) {
+function prisePicker(pizza) { //needed a verb on function and price
     if (pizza.width === 40) {
         return 2
     } else if (pizza.width === 30) {
@@ -73,12 +71,12 @@ function prisePicker(pizza) {
 }
 
 function totalPizza(pizza){
-    const existingPizza = pickedPizza.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+    const existingPizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
 
-    if (existingPizza) {
+    if (existingPizza) { // chage logic
         existingPizza.count++
     }else {
-        pickedPizza.pickedPizzas.push({
+        pizzaStore.pickedPizzas.push({
         id: pizza.id,
         name: pizza.name,
         img: pizza.img,
@@ -89,33 +87,34 @@ function totalPizza(pizza){
     })
     }
 
-    localStorage.setItem("pickedPizzas", JSON.stringify(pickedPizza.pickedPizzas))
+    localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
 }
 
 
 function sortArrayByName($event){
     if ($event.target.value === 'по алфавиту') {
-        pickedPizza.pizzas = pickedPizza.pizzas.sort((a,b) =>{
+        pizzaStore.pizzas = pizzaStore.pizzas.sort((a,b) =>{
         if(a.name < b.name) return -1
         if(a.name > b.name) return 1
         return 0
     })
     }
     else if($event.target.value === 'по цене'){
-        pickedPizza.pizzas = pickedPizza.pizzas.sort((a,b) =>{
+        pizzaStore.pizzas = pizzaStore.pizzas.sort((a,b) =>{
             if(a.cost < b.cost) return -1
             if(a.cost > b.cost) return 1
             return 0
         })
     }
     else if($event.target.value === 'популярности'){
-        pickedPizza.pizzas = pickedPizza.pizzas.sort((a,b) =>{
+        pizzaStore.pizzas = pizzaStore.pizzas.sort((a,b) =>{
             if(a.popularity < b.popularity) return -1
             if(a.popularity > b.popularity) return 1
             return 0
         })
     }
 }
+
 
 </script>
 
