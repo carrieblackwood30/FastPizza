@@ -17,8 +17,6 @@
         </div>
     </nav>
 
-
-
     <main>
         <h3 class="allPizza">Все пиццы</h3>
         <div class="pizza-container">
@@ -33,7 +31,7 @@
                             @click="pizza.thickness = true">традиционное</button>
                     </div>
                     <div class="width">
-                        <button  v-for="pizzaWidth in pizza.width" :key="pizzaWidth" :class="`display-${pizza.selectedWidth === pizzaWidth ? 'on' : 'off'}`" @click="pizza.selectedWidth = pizzaWidth">{{ pizzaWidth }}</button> <!--через v-for-->
+                        <button  v-for="pizzaWidth in pizza.width" :key="pizzaWidth" :class="`display-${pizza.selectedWidth === pizzaWidth ? 'on' : 'off'}`" @click="pizza.selectedWidth = pizzaWidth">{{ pizzaWidth }}</button>
                     </div>
                 </div>
                 <div class="total-container">
@@ -48,14 +46,14 @@
 
 <script setup>
 import { useStore } from "@/stores/usePizzaStore.js"
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 
 const pizzaStore = useStore()
 
+onBeforeMount(() => pizzaStore.getPizzas())
+
 const pizzaFiltered = ref('все')
 const pizzaClasses = [ 'все', 'мясные', 'вегетарианские', 'гриль', 'острые', 'закрытые' ]
-
-pizzaStore.getPizzas()
 
 const countPizzas = (pizza) =>{
     const counter = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.selectedWidth) && (item.thickness === pizza.thickness))

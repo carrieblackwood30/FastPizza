@@ -27,9 +27,9 @@ export const useStore = defineStore('pizza', () => {
 		return pickedPizzas.value.reduce((a, b) => (a += b.cost * b.count), 0)
 	})
 
-  const totalLength = computed(() =>{
+  const totalPizzasCount = computed(() =>{
     return pickedPizzas.value.reduce((a, b) => a+= b.count, 0 )
   })
   
-  return { pizzas, pickedPizzas, getPizzas, delAllItem, totalPiizaCost, totalLength }
+  return { pizzas, pickedPizzas, getPizzas, delAllItem, totalPiizaCost, totalPizzasCount }
 })

@@ -17,9 +17,9 @@
                     ,{{ pizza.width }}
                 </div>
                 <div class="button-container">
-                    <button @click="decreaseBtn(pizza)">-</button>
+                    <button @click="increaseDecreaseBtn(pizza, $event)">-</button>
                         {{ pizza.count }}
-                    <button @click="increaseBtn(pizza)">+</button>
+                    <button @click="increaseDecreaseBtn(pizza, $event)">+</button>
                 </div>
                 <h3 style="width: 6rem;">{{ computedCost(pizza) }} ₽</h3>
 
@@ -27,8 +27,8 @@
             </div>
         </div>
         <div class="tail">
-            <span style="display: flex; gap: 1rem; align-items: center;">Всего пицц: <h3>{{ pizzaStore.totalLength }} шт</h3></span>
-            <span style="display: flex; gap: 1rem; align-items: center;">сумма заказа:
+            <span>Всего пицц: <h3>{{ pizzaStore.totalPizzasCount }} шт</h3></span>
+            <span>сумма заказа:
                 <h3 style="color: var(--main-color)">{{ pizzaStore.totalPiizaCost }} ₽</h3>
             </span>
         </div>
@@ -59,20 +59,16 @@ import { useStore } from "@/stores/usePizzaStore";
 const pizzaStore = useStore()
 const computedCost = (pizza) => pizza.cost * pizza.count
 
-function decreaseBtn(pizza){
+function increaseDecreaseBtn(pizza, event){
     const decreasePizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
-    if (decreasePizza.count > 1) {
-        decreasePizza.count--
-    }else{
-        const confirmDel = confirm(`вы хотите убрать из списка ${pizza.name}?`)
-        confirmDel ? delItem(pizza) : decreaseBtn.count = 1
-    }
-    localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
-}
 
-function increaseBtn(pizza){
-    const decreasePizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+   if (event.target.firstChild.nodeValue === '-') {
+    decreasePizza.count > 1 ? decreasePizza.count-- : confirm(`вы хотите убрать из списка ${pizza.name}?`) ? delItem(pizza) : pizza.count = 1
+   }
+   else if(event.target.firstChild.nodeValue === '+'){
     decreasePizza.count++
+   }
+
     localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
 }
 
@@ -207,5 +203,11 @@ function delItem(pizza){
     border-radius: 20px;
     padding: .8rem 1rem;
     text-decoration: none;
+}
+
+.tail span{
+    display: flex; 
+    gap: 1rem; 
+    align-items: center;
 }
 </style>
