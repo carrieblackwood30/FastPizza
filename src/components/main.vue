@@ -24,7 +24,7 @@
         <div class="pizza-container">
             <div class="pizza-card" v-for="(pizza) in pizzaStore.pizzas " :key="pizza.id" v-show="pizza.class.includes(pizzaFiltered)">
                 <img :src="pizza.img" alt="pizza-img">
-                <h3 style="text-align: center; margin: .8rem 1rem;">{{ pizza.name }}</h3>
+                <h3 class="pizzaName">{{ pizza.name }}</h3>
                 <div class="button-container">
                     <div class="thickness">
                         <button :class="`display-${pizza.thickness ? 'off' : 'on'}`"
@@ -32,13 +32,13 @@
                         <button :class="`display-${pizza.thickness ? 'on' : 'off'}`"
                             @click="pizza.thickness = true">традиционное</button>
                     </div>
-                    <div class="width" v-for="pizzaWidth in pizza.width">
-                        <button :class="`display-${pizza.selectedWidth === pizzaWidth ? 'on' : 'off'}`" @click="pizza.selectedWidth = pizzaWidth">{{ pizzaWidth }}</button> <!--через v-for-->
+                    <div class="width">
+                        <button  v-for="pizzaWidth in pizza.width" :key="pizzaWidth" :class="`display-${pizza.selectedWidth === pizzaWidth ? 'on' : 'off'}`" @click="pizza.selectedWidth = pizzaWidth">{{ pizzaWidth }}</button> <!--через v-for-->
                     </div>
                 </div>
                 <div class="total-container">
-                    <h3 style="display: inline;">от {{ pizza.cost[0] }} ₽</h3>
-                    <button style="display: inline;" @click="totalPizza(pizza)"> + Добавить {{ pizza.cost[prisePicker(pizza)]}} <span :class="`${countPizzas(pizza) !== '' ? 'counter' : ''}`">{{ countPizzas(pizza) }}</span></button>
+                    <h3>от {{ pizza.cost[0] }} ₽</h3>
+                    <button @click="sendToCartPizza(pizza)"> + Добавить {{ pizza.cost[getTotalPizza(pizza)]}} <span :class="`${countPizzas(pizza) !== '' ? 'counter' : ''}`">{{ countPizzas(pizza) }}</span></button>
                 </div>
             </div>
         </div>
@@ -58,35 +58,30 @@ const pizzaClasses = [ 'все', 'мясные', 'вегетарианские',
 pizzaStore.getPizzas()
 
 const countPizzas = (pizza) =>{
-    const counter = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
+    const counter = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.selectedWidth) && (item.thickness === pizza.thickness))
     return counter?.count || ''
 }
 
-function prisePicker(pizza) { //needed a verb on function and price
-    if (pizza.width === 40) {
+function getTotalPizza(pizza) {
+    if (pizza.selectedWidth === 40) {
         return 2
-    } else if (pizza.width === 30) {
+    } else if (pizza.selectedWidth === 30) {
         return 1
     } else return 0
 }
 
-function totalPizza(pizza){
-    const existingPizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
-
-    if (existingPizza) { // chage logic
-        existingPizza.count++
-    }else {
-        pizzaStore.pickedPizzas.push({
+function sendToCartPizza(pizza){
+    const existingPizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.selectedWidth) && (item.thickness === pizza.thickness))
+    existingPizza ? existingPizza.count++
+        : pizzaStore.pickedPizzas.push({
         id: pizza.id,
         name: pizza.name,
         img: pizza.img,
         thickness: pizza.thickness,
-        width: pizza.width,
-        cost: pizza.cost[prisePicker(pizza)],
+        width: pizza.selectedWidth,
+        cost: pizza.cost[getTotalPizza(pizza)],
         count: 1
     })
-    }
-
     localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
 }
 
@@ -177,6 +172,11 @@ main {
     width: 280px;
     display: flex;
     flex-direction: column;
+}
+
+.pizzaName{
+    text-align: center;
+    margin: .8rem 1rem;
 }
 
 .button-container {
