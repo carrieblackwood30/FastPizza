@@ -41,7 +41,7 @@
                 <div class="total-container">
                     <h3>от {{ pizza.cost[0] }} ₽</h3>
                     <button @click="addToCart(pizza)"> + Добавить{{ pizza.cost[getPizzaWidthIndex(pizza)]}} 
-                        <span :class="`${getPizzaCount(pizza) !== '' ? 'counter' : ''}`">
+                        <span :class="`${getPizzaCount(pizza) !== '' ? 'counter' : ''}`"> 
                             {{ getPizzaCount(pizza) }}
                         </span>
                     </button>
@@ -88,7 +88,7 @@ function addToCart(pizza){
         img: pizza.img,
         thickness: pizza.thickness,
         width: pizza.selectedWidth,
-        cost: pizza.cost,
+        cost: pizza.cost[getPizzaWidthIndex(pizza)],
         count: 1
     })
     }

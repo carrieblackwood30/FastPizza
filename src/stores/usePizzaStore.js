@@ -8,7 +8,7 @@ export const useStore = defineStore('pizza', () => {
   const pickedPizzas = ref([])
 
   function getPizzas(){
-    axios.get("https://alert-marvelous-olive.glitch.me/pizzas")
+    axios.get("http://localhost:3000/pizzas")
     .then((response) => {
       pizzas.value = response.data
       for (let i = 0; i < pizzas.value.length; i++) {
