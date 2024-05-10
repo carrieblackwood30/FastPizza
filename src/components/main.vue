@@ -41,9 +41,9 @@
                 <div class="total-container">
                     <h3>от {{ pizza.cost[0] }} ₽</h3>
                     <button @click="addToCart(pizza)"> + Добавить  {{ pizza.cost[getPizzaWidthIndex(pizza)]}} 
-                        <span :class="`${getPizzaCount(pizza) !== '' ? 'counter' : ''}`"> 
-                            {{ getPizzaCount(pizza) }}
-                        </span>
+                        <div class="counterNumber" :class="`${getPizzaCount(pizza) !== '' ? 'counter' : ''}`"> 
+                            <span>{{ getPizzaCount(pizza) }}</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -251,13 +251,20 @@ main {
 }
 
 .counter{
-    background-color: var(--main-color);
-    color: #F3F3F3;
-    padding: .2rem .4rem;
-    border-radius: 50%;
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
 }
 
-button:hover .counter{
+.counter span{
+    background-color: var(--main-color);
+    border-radius: 50%;
+    color: #F3F3F3;
+    text-align: center;
+    width: 100%;
+}
+
+button:hover .counter span{
     background-color: #f3f3f3;
     color: var(--main-color);
 }
