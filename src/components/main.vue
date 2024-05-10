@@ -40,7 +40,7 @@
                 </div>
                 <div class="total-container">
                     <h3>от {{ pizza.cost[0] }} ₽</h3>
-                    <button @click="addToCart(pizza)"> + Добавить{{ pizza.cost[getPizzaWidthIndex(pizza)]}} 
+                    <button @click="addToCart(pizza)"> + Добавить  {{ pizza.cost[getPizzaWidthIndex(pizza)]}} 
                         <span :class="`${getPizzaCount(pizza) !== '' ? 'counter' : ''}`"> 
                             {{ getPizzaCount(pizza) }}
                         </span>

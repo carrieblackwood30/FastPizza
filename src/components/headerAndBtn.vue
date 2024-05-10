@@ -1,13 +1,19 @@
 <template>
 
   <header>
-    <div class="logo">
-    <img src="https://s3-alpha-sig.figma.com/img/4de5/7236/f9f670697fd9287efa7cab2cffff922e?Expires=1716163200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Sm~I-MlgFEMge-zgrXWViga3qJiUNngfhtRJ3LXTxl7vUcXsqp-36Lww-e3xAagHq~sud8Py7DxX99OCpvgRajNLGjDTQ43xOAcKXC3nf1Z3i9w0-Mw-vO3rD45Qg3Sh4u7RlW-ritFvwcSp3o2hoLfZAqM5Ix2JnkyNTnHBzfSc3A2qpZfzAHGCTH45h5nORKe5sQuwoc1rxCfxdg458HBz7IifStj3hi9nhu~CWClnyPQ2HliMzmcjCdMA70FE6Sa~s73JqvJwl7CzNkna3UiCCEehEYxAjqToonrWLzCPR4nFU2YQmY7eaEeICmcT8A5jC0o6S6aMAknKUUa8qQ__" alt="logo" width="36">
-    <div class="text">
-      <h3>REACT PIZZA</h3>
-      <p>самая вкусная пицца во вселенной</p>
+
+    <div class="logo-wrapper">
+      <router-link to="/">
+        <div class="logo">
+      <img src="https://s3-alpha-sig.figma.com/img/4de5/7236/f9f670697fd9287efa7cab2cffff922e?Expires=1716163200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Sm~I-MlgFEMge-zgrXWViga3qJiUNngfhtRJ3LXTxl7vUcXsqp-36Lww-e3xAagHq~sud8Py7DxX99OCpvgRajNLGjDTQ43xOAcKXC3nf1Z3i9w0-Mw-vO3rD45Qg3Sh4u7RlW-ritFvwcSp3o2hoLfZAqM5Ix2JnkyNTnHBzfSc3A2qpZfzAHGCTH45h5nORKe5sQuwoc1rxCfxdg458HBz7IifStj3hi9nhu~CWClnyPQ2HliMzmcjCdMA70FE6Sa~s73JqvJwl7CzNkna3UiCCEehEYxAjqToonrWLzCPR4nFU2YQmY7eaEeICmcT8A5jC0o6S6aMAknKUUa8qQ__" alt="logo" width="36">
+        <div class="text">
+          <h3>REACT PIZZA</h3>
+          <p>самая вкусная пицца во вселенной</p>
+        </div>
+      </div>
+    </router-link>
     </div>
-  </div>
+
     <div class="button-container">
       <router-link to="cart">
         <button v-if="displayBtnOff">{{ pizzaStore.totalPiizaCost }} ₽ |<img src="../assets/cart.svg" alt="card" width="32"> {{ getPizzaLength() }}</button>
@@ -60,6 +66,15 @@ header{
 
   .display-off{
     display: none;
+  }
+
+  router-link{
+    text-decoration: none;
+  }
+
+  .logo-wrapper *{
+    text-decoration: none;
+    color: var(--text-color);
   }
 
 </style>
