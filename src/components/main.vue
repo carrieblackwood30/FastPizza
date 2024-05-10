@@ -3,13 +3,13 @@
     <nav>
         <div class="nav-container">
             <div v-for="filteredPizza in pizzaClasses" :key="filteredPizza">
-                <button :class="`pizza-filter-${pizzaFiltered === filteredPizza ? 'on' : 'off'}`" @click= "pizzaFiltered = filteredPizza">{{ filteredPizza }}</button>
+                <button :class="`pizza-filter-${filteredPizzaValue === filteredPizza ? 'on' : 'off'}`" @click= "filteredPizzaValue = filteredPizza">{{ filteredPizza }}</button>
             </div>
         </div>
 
         <div class="sort-container">
             <label for="select">Сортировка по:</label>
-            <select name="categories" id="select" @change="sortArrayByName($event)">
+            <select name="categories" id="select" @change="sortPizzas($event)"> 
                 <option value="популярности">популярности</option>
                 <option value="по цене">по цене</option>
                 <option value="по алфавиту">по алфавиту</option>
@@ -20,7 +20,7 @@
     <main>
         <h3 class="allPizza">Все пиццы</h3>
         <div class="pizza-container">
-            <div class="pizza-card" v-for="(pizza) in pizzaStore.pizzas " :key="pizza.id" v-show="pizza.class.includes(pizzaFiltered)">
+            <div class="pizza-card" v-for="(pizza) in pizzaStore.pizzas " :key="pizza.id" v-show="pizza.class.includes(filteredPizzaValue)">
                 <img :src="pizza.img" alt="pizza-img">
                 <h3 class="pizzaName">{{ pizza.name }}</h3>
                 <div class="button-container">
@@ -31,12 +31,20 @@
                             @click="pizza.thickness = true">традиционное</button>
                     </div>
                     <div class="width">
-                        <button  v-for="pizzaWidth in pizza.width" :key="pizzaWidth" :class="`display-${pizza.selectedWidth === pizzaWidth ? 'on' : 'off'}`" @click="pizza.selectedWidth = pizzaWidth">{{ pizzaWidth }}</button>
+                        <button  v-for="pizzaWidth in pizza.width" :key="pizzaWidth" 
+                            :class="`display-${pizza.selectedWidth === pizzaWidth ? 'on' : 'off'}`" 
+                            @click="pizza.selectedWidth = pizzaWidth">
+                            {{ pizzaWidth }}
+                        </button>
                     </div>
                 </div>
                 <div class="total-container">
                     <h3>от {{ pizza.cost[0] }} ₽</h3>
-                    <button @click="sendToCartPizza(pizza)"> + Добавить {{ pizza.cost[getTotalPizza(pizza)]}} <span :class="`${countPizzas(pizza) !== '' ? 'counter' : ''}`">{{ countPizzas(pizza) }}</span></button>
+                    <button @click="addToCart(pizza)"> + Добавить{{ pizza.cost[getPizzaWidthIndex(pizza)]}} 
+                        <span :class="`${getPizzaCount(pizza) !== '' ? 'counter' : ''}`"> <!---object--> 
+                            {{ getPizzaCount(pizza) }}
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -52,15 +60,15 @@ const pizzaStore = useStore()
 
 onBeforeMount(() => pizzaStore.getPizzas())
 
-const pizzaFiltered = ref('все')
+const filteredPizzaValue = ref('все')
 const pizzaClasses = [ 'все', 'мясные', 'вегетарианские', 'гриль', 'острые', 'закрытые' ]
 
-const countPizzas = (pizza) =>{
+const getPizzaCount = (pizza) =>{
     const counter = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.selectedWidth) && (item.thickness === pizza.thickness))
     return counter?.count || ''
 }
 
-function getTotalPizza(pizza) {
+function getPizzaWidthIndex(pizza) {
     if (pizza.selectedWidth === 40) {
         return 2
     } else if (pizza.selectedWidth === 30) {
@@ -68,23 +76,28 @@ function getTotalPizza(pizza) {
     } else return 0
 }
 
-function sendToCartPizza(pizza){
+function addToCart(pizza){
     const existingPizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.selectedWidth) && (item.thickness === pizza.thickness))
-    existingPizza ? existingPizza.count++
-        : pizzaStore.pickedPizzas.push({
+
+    if(existingPizza){
+        existingPizza.count++
+    }else{
+        pizzaStore.pickedPizzas.push({
         id: pizza.id,
         name: pizza.name,
         img: pizza.img,
         thickness: pizza.thickness,
         width: pizza.selectedWidth,
-        cost: pizza.cost[getTotalPizza(pizza)],
+        cost: pizza.cost[getPizzaLength(pizza)],
         count: 1
     })
+    }
+
     localStorage.setItem("pickedPizzas", JSON.stringify(pizzaStore.pickedPizzas))
 }
 
 
-function sortArrayByName($event){
+function sortPizzas($event){
     if ($event.target.value === 'по алфавиту') {
         pizzaStore.pizzas = pizzaStore.pizzas.sort((a,b) =>{
         if(a.name < b.name) return -1

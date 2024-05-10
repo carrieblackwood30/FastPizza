@@ -17,9 +17,9 @@
                     ,{{ pizza.width }}
                 </div>
                 <div class="button-container">
-                    <button @click="increaseDecreaseBtn(pizza, $event)">-</button>
+                    <button @click="increaseDecreaseBtn(pizza, -1)">-</button>
                         {{ pizza.count }}
-                    <button @click="increaseDecreaseBtn(pizza, $event)">+</button>
+                    <button @click="increaseDecreaseBtn(pizza, +1)">+</button>
                 </div>
                 <h3 style="width: 6rem;">{{ computedCost(pizza) }} ₽</h3>
 
@@ -29,7 +29,7 @@
         <div class="tail">
             <span>Всего пицц: <h3>{{ pizzaStore.totalPizzasCount }} шт</h3></span>
             <span>сумма заказа:
-                <h3 style="color: var(--main-color)">{{ pizzaStore.totalPiizaCost }} ₽</h3>
+                <h3>{{ pizzaStore.totalPiizaCost }} ₽</h3>
             </span>
         </div>
 
@@ -59,13 +59,17 @@ import { useStore } from "@/stores/usePizzaStore";
 const pizzaStore = useStore()
 const computedCost = (pizza) => pizza.cost * pizza.count
 
-function increaseDecreaseBtn(pizza, event){
+function increaseDecreaseBtn(pizza, calculations){
     const decreasePizza = pizzaStore.pickedPizzas.find(item => (item.id === pizza.id) && (item.width === pizza.width) && (item.thickness === pizza.thickness))
 
-   if (event.target.firstChild.nodeValue === '-') {
-    decreasePizza.count > 1 ? decreasePizza.count-- : confirm(`вы хотите убрать из списка ${pizza.name}?`) ? delItem(pizza) : pizza.count = 1
+   if (calculations === -1) {
+    if(decreasePizza.count > 1){
+        decreasePizza.count--
+    }else{
+        confirm(`вы хотите убрать из списка ${pizza.name}?`) ? delItem(pizza) : pizza.count = 1
+    }
    }
-   else if(event.target.firstChild.nodeValue === '+'){
+   else if(calculations === +1){
     decreasePizza.count++
    }
 
@@ -209,5 +213,9 @@ function delItem(pizza){
     display: flex; 
     gap: 1rem; 
     align-items: center;
+}
+
+.tail h3{
+    color: var(--main-color);
 }
 </style>
